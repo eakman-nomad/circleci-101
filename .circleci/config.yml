@@ -7,17 +7,26 @@ jobs:
     steps:
       - checkout
       - run: echo "A first hellodjklf"
-      - run: sleep 25
+      - run: mkdir -p my_workspace
+      - run: echo "trying workspaces" >> my_workspace/test.txt
+      - persist_to_workspace:
+          root: my_worspace
+          paths:
+            - test.txt
   two:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
       - checkout
       - run: echo "A second hello"
-      - run: sleep 15
+      - attach_workspace:
+          at: my_workspace
+      - run: cat my_workspace/test.txt
 workflows:
   version: 2
   one_and_two:
     jobs:
       - one
-      - two
+      - two:
+          requires:
+            - one
