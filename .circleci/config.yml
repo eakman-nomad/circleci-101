@@ -10,7 +10,7 @@ jobs:
       - run: mkdir -p my_workspace
       - run: echo "trying workspaces" >> my_workspace/test.txt
       - persist_to_workspace:
-          root: my_worspace
+          root: my_workspace
           paths:
             - test.txt
   two:
